@@ -1,0 +1,8 @@
+{ "entrypoint": "index.html",
+  "basePath": "/theonlyames.github.io/",
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ]
+  }
+}

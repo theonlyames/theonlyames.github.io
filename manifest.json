@@ -1,0 +1,8 @@
+{
+  "name": "Portfolio",
+  "short_name": "Portfolio",
+  "description": "My personal portfolio website",
+  "start_url": "/theonlyames.github.io/",
+  "display": "standalone"
+  
+}
