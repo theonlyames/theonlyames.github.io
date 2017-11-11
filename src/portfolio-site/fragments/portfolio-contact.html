@@ -1,0 +1,91 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../style/fragment-style.html">
+
+
+<dom-module id="portfolio-contact">
+	<template>
+		<style include="portfolio-style">
+
+			paper-card {
+				padding: 16px;
+				line-height: 1.5;
+			}
+
+			paper-button {
+				line-height: 48px;
+				--paper-button-ink-color: var(--paper-pink-500);
+
+
+			}
+
+			.card-content {
+				padding-bottom: 8px;
+			}
+			.card-actions {
+				padding-top: 16px;
+
+			}
+
+			@media only screen and (min-width: 576px) {
+
+			}
+
+			@media only screen and (min-width: 768px) {
+
+			}
+
+			@media only screen and (min-width: 992px) {
+
+			}
+
+	    @media only screen and (min-width: 1200px) {
+
+			}
+
+		</style>
+
+		<article>
+			<h2 class="section-header">Contact Me</h2>
+
+			<paper-card>
+				<div class="card-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
+					</p>
+				</div>
+				<div class="card-actions">
+					<paper-button>Blargh</paper-button>
+				</div>
+			</paper-card>
+
+		</article>
+			<app-toolbar slot="footer">
+				<paper-button>One</paper-button>
+				<paper-button>Two</paper-button>
+				<paper-button>Three</paper-button>
+			</app-toolbar>
+
+
+		</article>
+	</template>
+
+	<script>
+    class PortfolioContact extends Polymer.Element {
+      static get is() { return 'portfolio-contact'; }
+			static get properties() {
+        return {
+					property1: {
+            type: String
+          }
+        };
+      }
+
+			ready() {
+        super.ready();
+      }
+
+    }
+
+    window.customElements.define(PortfolioContact.is, PortfolioContact);
+  </script>
+</dom-module>

@@ -1,0 +1,236 @@
+<!-- <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html"/>
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html" />
+<link rel="import" href="../../bower_components/app-layout/app-box/app-box.html" />
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html"/>
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html" />
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html" />
+<link rel="import" href="../../bower_components/paper-card/paper-card.html" />
+<link rel="import" href="../../bower_components/paper-styles/typography.html" />
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html" />
+<link rel="import" href="../../bower_components/iron-image/iron-image.html"/>
+<link rel="import" href="../../bower_components/flickr-handler/flickr-handler.html"> -->
+<!-- <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/parallax-background.html"/> -->
+<link rel="import" href="elements.html">
+<link rel="import" href="style/shared-style.html">
+
+<dom-module id="portfolio-shell">
+  <template>
+
+    <style include="portfolio-style">
+    </style>
+
+    <app-location
+      route="{{route}}"
+      url-space-regex="^[[rootPath]]">
+    </app-location>
+
+    <app-route
+        route="{{route}}"
+        pattern="[[rootPath]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}">
+    </app-route>
+
+    <app-header-layout fullbleed>
+        <app-header slot="header" reveals condenses effects="fade-background waterfall">
+          <!-- <app-box class="parallaxAppBox"  effects="parallax-background" > -->
+            <!-- <img slot="background" src="images/36605615292_e42e3f83e4_o.jpg" style="width: 100%; height: 600px;"> -->
+            <app-toolbar class="title-toolbar">
+
+              <!-- <h1 main-title>Amelia's Site</h1> -->
+              <h1>Amelia's Site</h1>
+
+            </app-toolbar>
+          <!-- </app-box> -->
+
+
+            <app-toolbar sticky class="navigation">
+
+              <ul role="navigation" class="navigation">
+                  <li><a href="#about"> About Me</a></li>
+                  <li><a href="#projects"> Projects</a></li>
+                  <li><a href="#photography"> Photography</a></li>
+                  <li><a href="#contact">Contact</a></li>
+              </ul>
+
+
+
+            </app-toolbar>
+
+        </app-header>
+
+        <app-box class="parallaxAppBox"  effects="parallax-background" >
+          <!-- <img slot="background" src="images/36605615292_e42e3f83e4_o.jpg" style="width: 100%; height: 600px;"> -->
+
+        </app-box>
+
+        <main>
+          <section id="about">
+            <portfolio-about>
+            </portfolio-about>
+          </section>
+
+          <section id="projects">
+            <portfolio-projects>
+            </portfolio-projects>
+          </section>
+
+          <section id="photography">
+            <portfolio-photography>
+            </portfolio-photography>
+          </section>
+
+          <section id="contact">
+            <portfolio-contact>
+            </portfolio-contact>
+          </section>
+
+
+
+            <section id="projects">
+              <!-- <article>
+                <h2 class="section-header">My Projects</h2>
+                <div class=".projects-grid">
+                  <paper-card class="project-item" heading="Project A">
+                    <div class="card-content">Some content</div>
+                    <div class="card-actions">
+                      <div style="height:16px">Some action</div>
+                    </div>
+                  </paper-card>
+
+                  <paper-card class="project-item" image="images/36605615292_e42e3f83e4_o.jpg">
+                    <div class="card-content">Some content</div>
+                    <div class="card-actions">
+                      <div style="height:16px">Some action</div>
+                    </div>
+                  </paper-card>
+                </div>
+
+
+              </article> -->
+            </section>
+
+            <section id="contact">
+                <article>
+
+
+                </article>
+
+            </section>
+
+
+        </main>
+        <footer>
+          <h2 class="section-header">Contact Me</h2>
+          <app-toolbar slot="footer">
+            
+            <h2 spacer> Footer </h2>
+            <paper-button>One</paper-button>
+            <paper-button>Two</paper-button>
+            <paper-button>Three</paper-button>
+          </app-toolbar>
+        </footer>
+    </app-header-layout>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PortfolioShell extends Polymer.Element {
+      static get is() { return 'portfolio-shell'; }
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+          routeData: Object,
+          subroute: String,
+          // This shouldn't be neccessary, but the Analyzer isn't picking up
+          // Polymer.Element#rootPath
+          rootPath: String,
+          handlr: {
+            type: Object
+          },
+          flickrPhotos: {
+            type: Array,
+            value() {
+
+              return [];
+            }
+          },
+        };
+      }
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+
+      ready() {
+        super.ready();
+
+
+        Polymer.importHref(
+            this.resolveUrl('fragments/portfolio-about.html'),
+            null,
+            console.log('load failed'),
+            true);
+
+        Polymer.importHref(
+            this.resolveUrl('fragments/portfolio-projects.html'),
+            null,
+            console.log('load failed'),
+            false);
+
+        Polymer.importHref(
+            this.resolveUrl('fragments/portfolio-photography.html'),
+            null,
+            console.log('load failed'),
+            false);
+
+        Polymer.importHref(
+            this.resolveUrl('fragments/portfolio-contact.html'),
+            null,
+            console.log('load failed'),
+            false);
+
+
+      }
+
+
+      _routePageChanged(page) {
+        // If no page was found in the route data, page will be an empty string.
+        // Default to 'view1' in that case.
+        this.page = page || 'view1';
+
+        // Close a non-persistent drawer when the page & route are changed.
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+      }
+
+      _pageChanged(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('fragments/portfolio-' + page + '.html');
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._showPage404.bind(this),
+            true);
+      }
+
+      _showPage404() {
+        this.page = 'fragments/view404';
+      }
+    }
+
+    window.customElements.define(PortfolioShell.is, PortfolioShell);
+  </script>
+</dom-module>

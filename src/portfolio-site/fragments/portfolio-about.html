@@ -1,0 +1,74 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../style/fragment-style.html">
+
+
+<dom-module id="portfolio-about">
+	<template>
+		<style include="portfolio-style Fragment-style">
+
+			paper-card {
+				padding: 16px;
+				line-height: 1.5;
+			}
+
+			.card-content {
+				padding-bottom: 8px;
+			}
+			.card-actions {
+				padding-top: 8px;
+			}
+
+			@media only screen and (min-width: 576px) {
+
+			}
+
+			@media only screen and (min-width: 768px) {
+
+			}
+
+			@media only screen and (min-width: 992px) {
+
+			}
+
+	    @media only screen and (min-width: 1200px) {
+
+			}
+
+		</style>
+
+		<article>
+			<h2 class="section-header">About Me</h2>
+
+			<paper-card>
+				<div class="card-content">
+					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
+					</p>
+				</div>
+				<div class="card-actions">
+					blargh
+				</div>
+			</paper-card>
+		</article>
+	</template>
+
+	<script>
+    class PortfolioAbout extends Polymer.Element {
+      static get is() { return 'portfolio-about'; }
+			static get properties() {
+        return {
+					property1: {
+            type: String
+          }
+        };
+      }
+
+			ready() {
+        super.ready();
+      }
+
+    }
+
+    window.customElements.define(PortfolioAbout.is, PortfolioAbout);
+  </script>
+</dom-module>

@@ -1,0 +1,93 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<!-- <link rel="import" href="../../../bower_components/flickr-handler/flickr-handler.html"> -->
+<link rel="import" href="../../../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../../../bower_components/iron-media-query/iron-media-query.html">
+<!-- <link rel="import" href="../elements/html"> -->
+<link rel="import" href="../style/fragment-style.html">
+
+
+<dom-module id="portfolio-projects">
+	<template>
+		<style include="portfolio-style">
+
+			:host {
+				--app-grid-columns: 1;
+        --app-grid-item-height: 100px;
+        --app-grid-expandible-item-columns: 1;
+        --app-grid-gutter: 16px;
+			}
+
+			/*.item:first-child, .item:nth-last-child(1), .item:last-of-type, .item:last-child {
+        @apply --app-grid-expandible-item;
+      }
+
+			.item:nth-child(2n+1) {
+				@apply --app-grid-expandible-item;
+			}*/
+
+			@media only screen and (min-width: 576px) {
+	      :host {
+          --app-grid-columns: 2;
+          --app-grid-item-height: 200px;
+          --app-grid-expandible-item-columns: 2;
+          --app-grid-gutter: 16px;
+        }
+
+			}
+
+			@media only screen and (min-width: 768px) {
+	      :host {
+          --app-grid-columns: 2;
+          --app-grid-item-height: 250px;
+          --app-grid-expandible-item-columns: 2;
+          --app-grid-gutter: 16px;
+        }
+
+			}
+
+			@media only screen and (min-width: 992px) {
+	      :host {
+	        --app-grid-columns: 2;
+	        --app-grid-item-height: 350px;
+	        --app-grid-expandible-item-columns: 2;
+	        --app-grid-gutter: 16px;
+        }
+
+			}
+
+
+
+
+	    @media only screen and (min-width: 1200px) { }
+
+
+		</style>
+
+		<article>
+			<h2 class="section-header">My Projects</h2>
+		</article>
+	</template>
+
+	<script>
+    class PortfolioProjects extends Polymer.Element {
+      static get is() { return 'portfolio-projects'; }
+			static get properties() {
+        return {
+					projects: {
+            type: Array,
+						value() {
+							return [];
+						}
+          }
+        };
+      }
+
+			ready() {
+        super.ready();
+      }
+
+    }
+
+    window.customElements.define(PortfolioProjects.is, PortfolioProjects);
+  </script>
+</dom-module>

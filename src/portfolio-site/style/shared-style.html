@@ -1,0 +1,374 @@
+<link rel="import" href="../../../bower_components/app-layout/app-grid/app-grid-style.html"/>
+<link rel="import" href="../../../bower_components/paper-styles/color.html">
+<dom-module id="portfolio-style">
+  <template>
+		<style include="app-grid-style">
+      * {
+      margin: 0;
+      padding: 0;}
+
+      :host {
+        font-family: 'Roboto', 'Noto', sans-serif;
+
+        --content-area: {
+            min-width: 200px;
+            max-width: 400px;
+            width: 90%;
+        };
+
+        --primary-text-color: #333;
+
+
+      }
+
+      footer app-toolbar {
+        background-color: var(--paper-deep-purple-100);
+      }
+      h1, h2, h3, h4 {
+          font-family: 'Roboto', 'Noto', sans-serif;
+          font-weight: lighter;
+      }
+
+      article {
+        @apply --content-area;
+        padding: 0px 16px;
+        /*width: var(--column-size);*/
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      article h2 {
+        text-align: center;
+      }
+
+      article hr {
+        width: 80%;
+        border: 0;
+        border-top: 1px solid #0C333333;
+      }
+
+      .item {
+        overflow: hidden;
+      }
+
+      ul.navigation {
+          min-height: 56px;
+          max-height: 128px;
+          margin: auto;
+          text-align: center;
+          font-family: 'Roboto', 'Noto', sans-serif;
+          font-weight: lighter;
+          display: block;
+      }
+
+      ul.navigation li {
+          list-style: none;
+          display: inline-block;
+          line-height: 56px;
+      }
+
+      ul.navigation li a {
+          display: inline-block;
+          line-height: 32px;
+          text-decoration: none;
+          color: var(--primary-text-color);
+          font-weight: 300;
+          font-size: .8em;
+          margin: 0 8px;
+      }
+
+
+      ul.navigation li a:hover {
+          border-bottom: 1px solid #33333333;
+      }
+
+
+      app-toolbar.title-toolbar {
+        padding-top: 32px;
+        background-color: white;
+        text-align: center;
+      }
+
+      app-toolbar.navigation {
+        height: auto;
+      }
+
+      .title-toolbar h1 {
+        margin: auto;
+        text-align: center;;
+        font-size: 1.5rem;
+        letter-spacing: .5rem;
+        text-transform: uppercase;
+      }
+
+
+      .app-grid {
+      margin-left: -16px;
+      margin-right: -16px;
+      }
+
+      app-header {
+        text-align: center;
+        background-color: white;
+          --app-header-background-rear-layer: {
+            /*background-color: #90caf9;*/
+            /*background-color: var(--paper-pink-100);*/
+        };
+      }
+
+
+
+
+
+
+
+    .parallaxAppBox {
+      height: 100px;
+
+      --app-box-background-front-layer: {
+
+        background-image: url(../images/36605615292_e42e3f83e4_o.jpg);
+        background-position: center;
+        padding-bottom: 64px;
+
+        margin-top: -64px;
+
+        /*height: 75%;*/
+        /*background-size: cover;*/
+      };
+    }
+
+
+
+      app-toolbar.title-toolbar {
+        background-color: white;
+      }
+
+
+
+      .section-header {
+        line-height: 64px;
+        margin: auto;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #0C333333;
+        /*font-size: rem;*/
+        padding: 16px 0px;
+      }
+
+
+
+
+
+
+    @media only screen and (min-width: 576px) {
+      :host {
+          --app-grid-columns: 2;
+          --app-grid-item-height: 200px;
+          --app-grid-expandible-item-columns: 2;
+          --app-grid-gutter: 16px;
+
+            --content-area: {
+                min-width: 400px;
+                max-width: 600px;
+                width: 80%;
+            };
+          }
+
+      /*.item:nth-child(3n+1) {
+        @apply --app-grid-expandible-item;
+      }*/
+
+      /*.item:last-child {
+        @apply --app-grid-expandible-item;
+      }*/
+
+      .navigation {
+          text-align: center;
+          margin: auto;
+      }
+
+      title-toolbar {
+        padding-top: 16px;
+      }
+
+      app-toolbar.navigation {
+        min-height: 64px;
+        max-height: 128px;
+      }
+
+      .title-toolbar h1 {
+        margin: auto;
+        text-align: center;;
+        font-size: 1.75rem;
+        letter-spacing: .5rem;
+        text-transform: uppercase;
+      }
+
+      ul.navigation {
+        min-height: 64px;
+        margin: auto;
+        text-align: center;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-weight: lighter;
+        display: block;
+      }
+
+      ul.navigation li {
+          list-style: none;
+          display: inline-block;
+          line-height: 64px;
+      }
+
+      ul.navigation li a {
+          display: inline-block;
+          line-height: 64px;
+          text-decoration: none;
+          color: var(--primary-text-color);
+          font-weight: 300;
+          font-size: 1em;
+          margin: 0 8px;
+      }
+
+      .parallaxAppBox {
+        height: 150px;
+      }
+    }
+
+    @media only screen and (min-width: 768px) {
+      :host {
+        --content-area: {
+              min-width: 400px;
+              max-width: 600px;
+              width: 80%;
+        };
+      }
+
+      .section-header {
+
+        font-size: 2rem;
+
+      }
+      /*.item:nth-child(3n+1) {
+        @apply --app-grid-expandible-item;
+      }*/
+      /*.item:last-child {
+        @apply --app-grid-expandible-item;
+      }*/
+
+      article {
+        @apply --content-area;
+        padding: 0px 32px;
+        /*width: var(--column-size);*/
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      ul.navigation {
+          min-height: 64px;
+          font-family: 'Roboto', 'Noto', sans-serif;
+          font-weight: lighter;
+          display: block;
+
+      }
+
+      ul.navigation li {
+          list-style: none;
+          display: inline-block;
+          line-height: 64px;
+      }
+
+      ul.navigation li a {
+          display: inline-block;
+          line-height: 32px;
+          text-decoration: none;
+          color: var(--primary-text-color);
+          font-weight: 300;
+          margin: 0 16px;
+
+      }
+      title-toolbar {
+        padding-top: 32px;
+      }
+      .title-toolbar h1 {
+        margin: auto;
+        text-align: center;;
+        font-size: 2rem;
+        letter-spacing: .5rem;
+        text-transform: uppercase;
+      }
+
+      .parallaxAppBox {
+        height: 200px;
+
+        --app-box-background-front-layer: {
+
+          background-image: url(../images/36605615292_e42e3f83e4_o.jpg);
+          background-position: center;
+          padding-bottom: 64px;
+
+          margin-top: -64px;
+
+          height: 100%;
+          background-size: cover;
+        };
+      }
+
+    }
+
+    @media only screen and (min-width: 992px){
+      :host {
+        --app-grid-columns: 3;
+        --app-grid-item-height: 350px;
+        --app-grid-expandible-item-columns: 3;
+        --app-grid-gutter: 16px;
+
+          --content-area: {
+              min-width: 800px;
+              max-width: 1200px;
+              width: 80%;
+          };
+       }
+
+       /*.item:nth-child(5n+1) {
+         @apply --app-grid-expandible-item;
+       }*/
+
+       /*.item:last-child {
+         @apply --app-grid-expandible-item;
+       }*/
+
+
+       .parallaxAppBox {
+         /*max-height: 400px;*/
+         height: 400px;
+         /*min-height: 400px;*/
+         min-width: 100%;
+         margin-left: auto;
+         margin-right: auto;
+
+         --app-box-background-front-layer: {
+           /*background-image: url(images/header2.jpg);*/
+           background-image: url(../images/36605615292_e42e3f83e4_o.jpg);
+           background-position: center;
+           padding-bottom: 128px;
+           /*margin-top: -30px;*/
+           margin-top: -128px;
+           /*width: 100%;*/
+           height: 120%;
+
+           background-size: cover;;
+         };
+       }
+    }
+
+
+    @media only screen and (min-width: 1200px) { }
+
+
+
+
+
+		</style>
+	</template>
+</dom-module>

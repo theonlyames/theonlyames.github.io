@@ -1,0 +1,155 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<!-- <link rel="import" href="../../../bower_components/flickr-handler/flickr-handler.html"> -->
+<link rel="import" href="../../../bower_components/app-layout/app-grid/app-grid-style.html">
+<!-- <link rel="import" href="../elements/html"> -->
+<link rel="import" href="../style/fragment-style.html">
+
+
+<dom-module id="portfolio-photography">
+	<template>
+		<style include="portfolio-style">
+			:host {
+				--app-grid-columns: 1;
+        --app-grid-item-height: 100px;
+        --app-grid-expandible-item-columns: 1;
+        --app-grid-gutter: 16px;
+			}
+
+			.item:first-child, .item:nth-last-child(1), .item:last-of-type, .item:last-child {
+        @apply --app-grid-expandible-item;
+      }
+
+			@media only screen and (min-width: 576px) {
+	      :host {
+          --app-grid-columns: 2;
+          --app-grid-item-height: 200px;
+          --app-grid-expandible-item-columns: 2;
+          --app-grid-gutter: 16px;
+        }
+			}
+
+			@media only screen and (min-width: 768px) {
+	      :host {
+          --app-grid-columns: 2;
+          --app-grid-item-height: 250px;
+          --app-grid-expandible-item-columns: 2;
+          --app-grid-gutter: 16px;
+        }
+			}
+
+			@media only screen and (min-width: 992px) {
+	      :host {
+	        --app-grid-columns: 4;
+	        --app-grid-item-height: 350px;
+	        --app-grid-expandible-item-columns: 4;
+	        --app-grid-gutter: 16px;
+        }
+			}
+
+			.item:first-child, .item:nth-last-child(1), .item:last-of-type, .item:last-child {
+        @apply --app-grid-expandible-item;
+      }
+
+
+	    @media only screen and (min-width: 1200px) { }
+
+    </style>
+		<article>
+			<h2 class="section-header">Photography Fragment</h2>
+
+
+			<flickr-handler id="flickr"
+				key='28c5968283d6f308010058714cbc80fb'
+				user='158128259@N08'
+				photos="{{flickrPhotos}}"
+				per-page='{{numberOfPhotos}}'>
+			</flickr-handler>
+
+			<div  class="app-grid" has-aspect-ratio>
+				<template id="photogrid" is="dom-repeat" items="{{flickrPhotos}}">
+					<paper-card class="item">
+						<iron-image class="card-content" src$="[[_getPhotoUrl(item)]]" sizing="cover" style="width: 100%; " alt="blarfg"> </iron-image>
+					</paper-card>
+				</template>
+			</div>
+		</article>
+	</template>
+
+	<script>
+    class PortfolioPhotography extends Polymer.Element {
+      static get is() { return 'portfolio-photography'; }
+			static get properties() {
+        return {
+					handler: {
+            type: Object
+          },
+          flickrPhotos: {
+            type: Array,
+            value() {
+              return [];
+            }
+          },
+					deletedItem: {
+						type: Object,
+						value: {}
+					},
+					numberOfPhotos: {
+						type: Number,
+						value: 6
+					}
+        };
+      }
+
+
+			ready() {
+        super.ready();
+				this.handler = this.$.flickr;
+				this.handler._loadMore();
+      }
+
+			_photosChanged(newValue, oldValue) {
+				// if (oldValue == null && this.displayGridQuery) {
+				// 	if (oldValue != 0) {
+				// 		console.log('photosChange');
+				// 		console.log(newValue);
+				// 		console.log(oldValue);
+        //
+				// 		this._mediaQueryTriggered(this.displayGridQuery, null);
+				// 	}
+				// }
+			}
+
+			_mediaQueryTriggered(newValue, oldValue) {
+
+				// console.log('newValue: ' + newValue +'\nOldValue: ' + oldValue);
+				if (this.flickrPhotos.length > 0) {
+					if (newValue == true)
+					{
+
+						this.pop(this.flickrPhotos);
+						return;
+	        }
+					else if (newValue == false && oldValue == true) {
+
+						this.push(this.flickrPhotos, this.deletedItem);
+						this.deletedItem = null;
+					}
+
+				}
+			}
+
+
+			_getPhotoUrl(photo) {
+        // console.log(photo);
+        return 'https://farm'
+                + photo.farm
+                + '.staticflickr.com/'
+                + photo.server
+                + '/' + photo.id + '_'
+                + photo.secret + '_b.jpg';
+      }
+    }
+
+    window.customElements.define(PortfolioPhotography.is, PortfolioPhotography);
+  </script>
+</dom-module>
