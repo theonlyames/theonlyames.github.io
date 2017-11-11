@@ -10,7 +10,21 @@
         display: block;
       }
     </style>
+    <h2>Hello!</h2>
+    <ul>
+      <li>[[key]]</li>
+      <li>[[user]]</li>
+    </ul>
 
+
+
+    <h2>AS</h2>
+    <template is="dom-repeat"
+              items="[[photos]]"
+              as="photo">
+      <h4>[[index]]</h4>
+      <p>[[photo]]</p>
+    </template>
 
     <iron-ajax id="ajax"
                loading="{{loading}}"
@@ -39,19 +53,22 @@
         return {
           key: {
             type: String,
-            value: 'c304f1096a06486d3c1e7ab271bf7f3f'
+            value: 'c304f1096a06486d3c1e7ab271bf7f3f',
+            reflectToAttribute: true
           },
 
           user: {
             type: String,
-            value: '142203852@N04'
+            value: '142203852@N04',
+            reflectToAttribute: true
           },
 
 					photos: {
 						type: Array,
 						value: function() {
 							return [];
-						}
+						},
+            reflectToAttribute: true
 
 					},
 
@@ -67,8 +84,7 @@
 
 					perPage: {
 						type: Number,
-						value: 16
-
+						value: 8
 					},
 
 					totalPages: {
@@ -77,6 +93,7 @@
 					},
 
           loading: Boolean
+
         };
       }
 
@@ -102,12 +119,12 @@
         payload.photos.photo.forEach(function(photo) {
           this.push('photos', photo);
         }, this);
-
+        console.log("payload" + payload);
       }
 
 
       _loadMore() {
-        // console.log(this.loading)
+        console.log(this.loading)
         if (this.loading) {
           return;
         }
@@ -117,15 +134,14 @@
         	this.$.ajax.url=this._getAPIEndpoint(this.key, this.user, this.page);
         	this.$.ajax.generateRequest();
 				}
-        // else {
-        //   console.log('too many pages ' + this.page + ' / ' + this.totalPages);
-        // }
-
-        // console.log(this.photos);
+        else {
+          console.log('too many pages ' + this.page + ' / ' + this.totalPages);
+        }
+        console.log(this.photos);
 
       }
 
-
+      
     }
 
 
