@@ -1,0 +1,151 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-scroll-threshold/iron-scroll-threshold.html">
+
+
+<dom-module id="flickr-handler">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello!</h2>
+    <ul>
+      <li>[[key]]</li>
+      <li>[[user]]</li>
+    </ul>
+
+
+
+    <h2>AS</h2>
+    <template is="dom-repeat"
+              items="[[photos]]"
+              as="photo">
+      <h4>[[index]]</h4>
+      <p>[[photo]]</p>
+    </template>
+
+    <iron-ajax id="ajax"
+               loading="{{loading}}"
+               handle-as="text"
+               on-response="_didReceiveResponse">
+    </iron-ajax>
+
+
+
+
+  </template>
+
+  <script>
+    /**
+     * `flickr-handler`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+
+    class FlickrHandler extends Polymer.Element {
+      static get is() { return 'flickr-handler'; }
+      static get properties() {
+        return {
+          key: {
+            type: String,
+            value: 'c304f1096a06486d3c1e7ab271bf7f3f',
+            reflectToAttribute: true
+          },
+
+          user: {
+            type: String,
+            value: '142203852@N04',
+            reflectToAttribute: true
+          },
+
+					photos: {
+						type: Array,
+						value: function() {
+							return [];
+						},
+            reflectToAttribute: true
+
+					},
+
+					gallery: {
+						type: String,
+						value: null
+					},
+
+					page: {
+						type: Number,
+						value: 0,
+					},
+
+					perPage: {
+						type: Number,
+						value: 8
+					},
+
+					totalPages: {
+						type: Number,
+						value: 1
+					},
+
+          loading: Boolean
+
+        };
+      }
+
+      _getAPIEndpoint(key, user, page) {
+        return 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
+            '&api_key=' + key +
+            '&safe_search=1&sort=interestingness-desc'+
+            '&user_id=' + user +
+            '&page=' + page +
+            '&format=json' +
+            '&per_page=' + this.perPage;
+      }
+
+      _didReceiveResponse(e) {
+        var payload = JSON.parse(e.detail.response.match('jsonFlickrApi\\((.*)\\)')[1]);
+
+        if (!payload || !payload.photos || !payload.photos.photo) {
+          return;
+        }
+
+				this.totalPages = payload.photos.pages;
+
+        payload.photos.photo.forEach(function(photo) {
+          this.push('photos', photo);
+        }, this);
+        console.log("payload" + payload);
+      }
+
+
+      _loadMore() {
+        console.log(this.loading)
+        if (this.loading) {
+          return;
+        }
+
+				if (this.page < this.totalPages) {
+					this.page++;
+        	this.$.ajax.url=this._getAPIEndpoint(this.key, this.user, this.page);
+        	this.$.ajax.generateRequest();
+				}
+        else {
+          console.log('too many pages ' + this.page + ' / ' + this.totalPages);
+        }
+        console.log(this.photos);
+
+      }
+
+      
+    }
+
+
+
+    window.customElements.define(FlickrHandler.is, FlickrHandler);
+  </script>
+</dom-module>
