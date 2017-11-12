@@ -2,27 +2,28 @@
 <link rel="import" href="../../../bower_components/paper-styles/color.html">
 <dom-module id="portfolio-style">
   <template>
-		<style include="app-grid-style">
+	<style include="app-grid-style">
       * {
-      margin: 0;
-      padding: 0;}
-
+        margin: 0;
+        padding: 0;
+      }
       :host {
         font-family: 'Roboto', 'Noto', sans-serif;
+       --primary-background-color: #EFEFF1;
+       --primary-text-color: #333;
 
+       background-color: var(--primary-background-color);
         --content-area: {
             min-width: 200px;
             max-width: 400px;
             width: 90%;
         };
 
-        --primary-text-color: #333;
-
-
       }
 
-
-
+      ul.navigation li a:hover {
+       border-bottom: 1px solid #33333333;
+      }
 
 
       footer app-toolbar {
@@ -39,6 +40,8 @@
         /*width: var(--column-size);*/
         margin-left: auto;
         margin-right: auto;
+        /*background-color: var(--primary-background-color);*/
+
       }
 
       article h2 {
@@ -82,9 +85,7 @@
       }
 
 
-      ul.navigation li a:hover {
-          border-bottom: 1px solid #33333333;
-      }
+
 
 
       app-toolbar.title-toolbar {
@@ -110,12 +111,13 @@
       margin-right: -16px;
       }
       app-header-layout {
-        background-color: rgba(235, 245, 255, 1);
+         /*background-color: rgba(235, 245, 255, 1);*/
+        background-color: white;
       }
       app-header {
         text-align: center;
-        background-color: white;
-        background-color: rgba(235, 245, 255, 1);
+        /*background-color: white;
+        background-color: rgba(235, 245, 255, 1);*/
           --app-header-background-rear-layer: {
             /*background-color: #90caf9;*/
             /*background-color: var(--paper-pink-100);*/
@@ -175,6 +177,7 @@
             };
           }
 
+
       /*.item:nth-child(3n+1) {
         @apply --app-grid-expandible-item;
       }*/
@@ -229,6 +232,10 @@
           font-size: 1em;
           margin: 0 8px;
       }
+
+      ul.navigation li a:hover {
+      border-bottom: 1px solid #33333333;
+     }
 
       .parallaxAppBox {
         height: 150px;
@@ -285,8 +292,12 @@
           color: var(--primary-text-color);
           font-weight: 300;
           margin: 0 16px;
-
       }
+
+      ul.navigation li a:hover {
+      border-bottom: 1px solid #33333333;
+     }
+
       title-toolbar {
         padding-top: 32px;
       }
@@ -369,9 +380,32 @@
 
     @media only screen and (min-width: 1200px) { }
 
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    :host {
+      font-family: 'Roboto', 'Noto', sans-serif;
+     --primary-background-color: #EFEFF1;
+     --primary-text-color: #333;
+    }
+    app-toolbar {
+      background-color: white;
+   }
+    main {
+      background-color: var(--primary-background-color);
+    }
 
-
-
+    ul.navigation li a:hover{
+     border-bottom: 1px solid rgba(51,51,51,.33);
+    }
+    .iron-selected a:hover{
+      border-bottom: 1px solid rgba(51,51,51,.50);
+    }
+    
+    .iron-selected a {
+      border-bottom: 1px solid rgba(51,51,51,.50);
+    }
 
 		</style>
 	</template>

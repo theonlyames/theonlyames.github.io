@@ -5,22 +5,14 @@
 
 <dom-module id="portfolio-about">
 	<template>
-		<style include="portfolio-style Fragment-style">
+		<style include="portfolio-style fragment-style">
 
-			paper-card {
-				padding: 16px;
-				line-height: 1.5;
-			}
-
-			.card-content {
-				padding-bottom: 8px;
-			}
-			.card-actions {
-				padding-top: 8px;
-			}
 
 			@media only screen and (min-width: 576px) {
 
+				article {
+					/*background-color: #333;*/
+				}
 			}
 
 			@media only screen and (min-width: 768px) {
@@ -32,7 +24,27 @@
 			}
 
 	    @media only screen and (min-width: 1200px) {
+			 /*:host {
+			 	--primary-backgrond-color: #EFEFF1;
+			 	background-color: #EFEFF1;
+			 }
+			 article {
+			 	background-color: #EFEFF1;
+			 }*/
+			}
 
+
+			paper-card {
+				padding: 16px;
+				line-height: 1.5;
+			
+			}
+
+			.card-content {
+				padding-bottom: 8px;
+			}
+			.card-actions {
+				padding-top: 8px;
 			}
 
 		</style>

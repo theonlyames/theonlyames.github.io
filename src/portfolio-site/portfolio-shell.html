@@ -19,6 +19,9 @@
   <template>
 
     <style include="portfolio-style">
+
+
+
     </style>
 
     <app-location
@@ -49,10 +52,12 @@
             <app-toolbar sticky class="navigation">
 
               <ul role="navigation" class="navigation">
-                  <li><a href="#about"> About Me</a></li>
-                  <li><a href="#projects"> Projects</a></li>
-                  <li><a href="#photography"> Photography</a></li>
-                  <li><a href="#contact">Contact</a></li>
+                 <iron-selector attr-for-selected="name">
+                  <li name="about"><a href="#about"> About Me</a></li>
+                  <li name="projects"><a href="#projects"> Projects</a></li>
+                  <li name="photography"><a href="#photography"> Photography</a></li>
+                  <li name="contact"><a href="#contact">Contact</a></li>
+               </iron-selector>
               </ul>
 
 
@@ -122,16 +127,16 @@
 
 
         </main>
-        <footer>
+        <!-- <footer>
           <h2 class="section-header">Contact Me</h2>
           <app-toolbar slot="footer">
-            
+
             <h2 spacer> Footer </h2>
             <paper-button>One</paper-button>
             <paper-button>Two</paper-button>
             <paper-button>Three</paper-button>
           </app-toolbar>
-        </footer>
+        </footer> -->
     </app-header-layout>
 
   </template>
