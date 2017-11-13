@@ -11,7 +11,7 @@
       .css-grid {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        grid-gap: 16px;
+        grid-gap: 8px;
         grid-auto-rows: minmax(100px, auto);
       }
 
@@ -24,12 +24,12 @@
         .css-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          grid-gap: 16px;
+          grid-gap: 8px;
           grid-auto-rows: minmax(200px, auto);
         }
 
         .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
-          grid-column: span 3;
+          grid-column: span 2;
         }
       }
 
@@ -38,13 +38,13 @@
         .css-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          grid-gap: 16px;
+          grid-gap: 8px;
           grid-auto-rows: minmax(250px, auto);
 
         }
 
         .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
-          grid-column: span 3;
+          grid-column: span 2;
         }
 
       }
@@ -53,13 +53,17 @@
         .css-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          grid-gap: 16px;
+          grid-gap: 8px;
           grid-auto-rows: minmax(350px, auto);
 
         }
 
         .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
           grid-column: span 4;
+        }
+
+        .css-grid-item:hover {
+
         }
 
       }
@@ -69,32 +73,50 @@
       @media only screen and (min-width: 1200px) { }
 
      .css-grid-item {
-        overflow: hidden;
+        position: relative;
         background-color: white;
         width: 100%;
         height: 100%;
-        --paper-card-content: {
-        ;
-          width: 100%;
-          height: 100%;
-          /*height: calc(100% - 48px);*/
-          padding: 8px;
-        };
-
-        --paper-card-actions: {
-          height: 48px;
-          text-align: center;
-        };
       }
 
+     .css-grid-item * {
+       display: inline-block;
+     }
 
-     .css-grid-item .card-content iron-image {
+     .css-grid-item iron-image {
+       height: 100%;
+       width: 100%;
+     }
+
+     /*.css-grid-item .overlay {
+       position: absolute;
+       pointer-events: none;
+       height: 100%;
+       width:  100%;
+       top: 0px;
+       left: 0px;
+       background-color: none;
+     }*/
+
+
+
+     .overlay {
+       position: absolute;
        width: 100%;
        height: 100%;
+       top: 0;
+       bottom: 0;
+       left: 0;
+       right: 0;
+       z-index: 1;
+       pointer-events: none;
+       transition: background-color .15s ease-in-out;
      }
-     .css-grid-item .card-actions paper-button {
-       height: 32px;
-
+     .css-grid-item:hover .overlay,
+     .css-grid-item:active .overlay,
+     .css-grid-item:focus .overlay {
+       background-color: rgba(144, 202, 249, .15);
+       /*position: absolute;*/
      }
 
 
@@ -112,17 +134,12 @@
 
       <div class="css-grid">
         <template is="dom-repeat" items="{{flickrPhotos}}">
-          <paper-card class="css-grid-item">
-            <div class="card-content">
-              <iron-image src$="[[_getPhotoUrl(item)]]" sizing="cover" alt="blarfg"></iron-image>
-            </div>
-            <!-- <div class="card-actions">
-              <a  tabindex="-1">
-                <paper-button  style="margin: 8px; padding: 0 16px;">View on Flickr</paper-button>
-              </a>
-            </div> -->
-          </paper-card>
+          <!-- <img src="[[_getPhotoUrl(item)]]" class="css-grid-item" alt="Flickr Image"></img> -->
 
+          <div class="css-grid-item">
+            <iron-image src$="[[_getPhotoUrl(item)]]" sizing="cover" alt="Flickr image"></iron-image>
+            <div class="overlay"></div>
+          </div>
 
         </template>
       </div>
