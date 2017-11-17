@@ -67,6 +67,40 @@
       }
 
       @media only screen and (min-width: 1200px) { }
+      paper-dialog {
+        width: 80vw;
+        height: 80vh;
+        background-color: none;
+      }
+
+      paper-dialog div {
+        width: 100%;
+        height: 100%;
+      }
+
+      .css-grid2 {
+        display: grid;
+        /*text-align: center;*/
+        grid-gap: 8px;
+        /*grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));*/
+        /*minmax(1fr, 25%));*/
+
+        /*grid-template-rows: repeat(auto, minmax(150px, 1fr));*/
+        /*grid-auto-columns: */
+        /*grid-auto-rows: minmax(350px, 1fr);*/
+        /*grid-auto-flow: dense;*/
+      }
+
+      .css-grid-item2 {
+        display: block;
+        /*object-fit: scale-down;*/
+        width: 100%;
+        height: 100%;
+        /*overflow: hidden;*/
+      }
+
+      .css-grid-item2 iron-image, .css-grid-item2 img {
+      }
 
       .css-grid-item {
         position: relative;
@@ -84,7 +118,7 @@
        width: 100%;
      }
 
-     /*.css-grid-item .overlay {
+     .css-grid-item .overlay {
        position: absolute;
        pointer-events: none;
        height: 100%;
@@ -92,7 +126,7 @@
        top: 0px;
        left: 0px;
        background-color: none;
-     }*/
+     }
 
      .overlay {
        position: absolute;
@@ -113,75 +147,25 @@
      .css-grid-item:focus .overlay {
        background-color: rgba(144, 202, 249, .15);
        /*position: absolute;*/
-
       }
+
+
+
 
       paper-card {
         display: block;
         padding: 16px;
       }
 
-      paper-dialog {
-        /*width: inherit;*/
-        width: 80vw;
-        height: 80vh;
-        /*height: inherit;*/
-        /*display: block;*/
-        background-color: none;
-      }
-
-      paper-dialog div {
-        /*min-width: 100px;*/
-        width: 100%;
-        /*min-height: 100px;*/
-        height: 100%;
-      }
-
-      iron-image {
-        /*width:100%;*/
-        /*--iron-image-width: 100%;*/
-        /*height: 100%;*/
-      }
-      iron-image::content img {
-          /*width: 100%;*/
-          height: 100%;
-      }
 
 
-      .page2 {
-        /*background-color: #f00;*/
-      }
 
-      .page2-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 8px;
-        grid-auto-rows: minmax(350px, auto);
 
-      }
 
-      /*.page2-grid-item {
-      }*/
-
-      .page2-griditem:first-child{
-        grid-row: 1 / span 3;
-        grid-column: 2 / span 3;
-      }
-      .page2-griditem:nth-child(2) {
-        grid-column: 1;
-        grid-row: 1;
-      }
-      .page2-griditem:nth-child(3) {
-        grid-column: 1;
-        grid-row: 2;
-      }
-      .page2-griditem:nth-child(4) {
-        grid-column: 1;
-        grid-row: 3;
-      }
-
-      .page2-griditem:nth-child(1n+5) {
-        display: none;
+      paper-button {
+        min-height: 48px;
+        padding: 0 8px;
+        /*--paper-button-ink-color: var(--primary-accent-color);*/
       }
 
     </style>
@@ -198,61 +182,47 @@
         per-page='{{numberOfPhotos}}'>
       </flickr-handler>
 
-      <paper-button on-click="_rawrs">AAA</paper-button>
 
-      <iron-pages selected="0">
-        <paper-card>
-          <div class="card-content">
-            <iron-selector class="css-grid"
-                           attr-for-selected="name"
-                           selected="{{selected}}"
-                           selectable=".css-grid-item">
-                           <!-- on-selected-changed="_selectedChanged"> -->
-              <template is="dom-repeat" items="{{flickrPhotos}}">
-                <div class="css-grid-item " attr="[[item.photo.id]]" name="{{item}}" on-tap="_showOverlay">
-                  <iron-image src$="[[_getPhotoUrl(item)]]" sizing="cover" alt="Flickr image"></iron-image>
-                  <div class="overlay"></div>
+      <paper-card>
+        <div class="card-content">
+          <iron-selector class="css-grid2"
+                         attr-for-selected="name"
+                         selected="{{selected}}"
+                         selectable=".css-grid-item2">
+
+            <template is="dom-repeat" items="{{flickrPhotos}}">
+                <div class="css-grid-item2" name="{{item}}" >
+                  <!-- on-click="_getPhotoAspectRatio" -->
+                  <!-- <img src$="[[_getPhotoUrl(item)]]"
+                              alt="Flickr image"
+                              class=" "
+                              name="{{item}}"> -->
+
+                  <iron-image src$="[[_getPhotoUrl(item)]]"
+                              sizing='none'
+                              alt="Flickr Image"
+                              style$="{{_getGridItemSize(item)}}">
+
+                  </iron-image>
+                  <!-- <paper-button photo='{{item}}' on-tap="_getPhotoAspectRatio">CLICKY</paper-button> -->
                 </div>
-              </template>
-            </iron-selector>
-          </div>
-          <div class="card-actions">
-
-          </div>
-        </paper-card>
-
-
-        <paper-card class="page2">
-          <div class="card-content">
-            <iron-selector class="css-grid"
-                           attr-for-selected="name"
-                           selected="{{selected}}"
-                           selectable=".css-grid-item">
-               <div class="css-grid-item page2-griditem" name='{{selected}}' n-tap="_showOverlay">
-                 <iron-image src$='{{selectedPhotoOUrl}}'  alt="Flickr Image" preventLoad preload  sizing='contain' > </iron-image>
-                 <!-- <div class="overlay"></div> -->
-               </div>
-              <template is="dom-repeat" id="imagelist" items="{{flickrPhotos}}"  filter="[[_isSelected(selected)]]">
-                <div class="css-grid-item page2-griditem" attr="[[item.photo.id]]" name="[[item]]" on-tap="_showOverlay">
-                  <iron-image src$="[[_getPhotoUrl(item)]]" sizing="cover" alt="Flickr image"></iron-image>
-                  <div class="overlay"></div>
-                </div>
-              </template>
-            </iron-selector>
-          </div>
-        </paper-card>
-
-      </iron-pages>
+              <!-- <div class="css-grid-item" attr="[[item.photo.id]]"  name="{{item}}" on-tap="_showOverlay">
+                <iron-image src$="[[_getPhotoUrl(item)]]" sizing='cover' alt="Flickr image"></iron-image>
+                <div class="overlay"></div>
+              </div> -->
+            </template>
+          </iron-selector>
+        </div>
+        <!-- <div class="card-actions"> -->
+          <!-- <a href="https://www.flickr.com/people/158128259@N08/"> -->
+          <!-- <a href="#">
+            <paper-button raised>View More On Flickr</paper-button>
+          </a>
+        </div> -->
+      </paper-card>
     </article>
 
 
-
-    <!-- <paper-dialog  id="boop">
-          <div>
-            <iron-image src$='{{selectedPhotoOUrl}}' alt="Flickr Image" preventLoad prevent-load preload  sizing='cover' > </iron-image>
-          </div>
-
-    </paper-dialog> -->
 
   </template>
 
@@ -275,32 +245,25 @@
             value: {}
           },
           selected: {
-            type: Object,
-            observer: '_selectedChanged2'
+            type: Object
           },
-          // rawr: {
-          //   type: Object,
-          //   computed: '_rawrs(selected)'
-          // },
           selectedPhotoOUrl: {
             type: String,
-            // observer: '_urlChanged',
             computed: '_getPhotoUrl(selected)'
           },
           numberOfPhotos: {
             type: Number,
-            value: 6
+            value: 10
           }
+
         };
       }
 
       _rawrs(){
         this.shadowRoot.querySelector('iron-pages').selectNext();
       }
+
       _isSelected(selected) {
-        console.log('currently selected');
-        console.log(selected);
-        console.log('X---X');
         if (selected == null || selected == undefined)
         {
           return function(){
@@ -314,34 +277,6 @@
         }
       }
 
-
-      // _urlChanged(newValue, oldValue) {
-      //   console.log('newValue: ');
-      //   console.log(newValue);
-      //   console.log('---');
-      //   // console.log('oldValue: ');
-      //   // console.log(oldValue);
-      // }
-
-
-      // _selectedChanged() {
-      //   console.log(this.selected);
-      //   if (this.selected != null) {
-      //     var template = this.$.imagelist;
-      //     // template.filter();
-      //     template.render();
-      //   }
-      //
-      // }
-      _selectedChanged2(newValue, oldValue) {
-        console.log('newValue: ');
-        console.log(newValue);
-        console.log('---');
-        // console.log('oldValue: ');
-        // console.log(oldValue);
-      }
-
-
       ready() {
         super.ready();
         this.handler = this.$.flickr;
@@ -352,44 +287,7 @@
         // this.$.boop.toggle();
       }
 
-      _photosChanged(newValue, oldValue) {
-        // if (oldValue == null && this.displayGridQuery) {
-        //   if (oldValue != 0) {
-        //     console.log('photosChange');
-        //     console.log(newValue);
-        //     console.log(oldValue);
-        //
-        //     this._mediaQueryTriggered(this.displayGridQuery, null);
-        //   }
-        // }
-      }
-
-      _mediaQueryTriggered(newValue, oldValue) {
-
-        // console.log('newValue: ' + newValue +'\nOldValue: ' + oldValue);
-        if (this.flickrPhotos.length > 0) {
-          if (newValue == true)
-          {
-
-            this.pop(this.flickrPhotos);
-            return;
-          }
-          else if (newValue == false && oldValue == true) {
-
-            this.push(this.flickrPhotos, this.deletedItem);
-            this.deletedItem = null;
-          }
-
-        }
-      }
-
-
-
       _getPhotoUrl(photo) {
-        // if (photo==null) {
-        //   return './placeholder.png'
-        // }
-        // console.log(photo);
         return 'https://farm'
                 + photo.farm
                 + '.staticflickr.com/'
@@ -397,6 +295,40 @@
                 + '/' + photo.id + '_'
                 + photo.secret + '_b.jpg';
       }
+
+       _getPhotoSize(photo) {
+        let sizes = this.handler._getPhotoSizes(photo);
+        return sizes;
+      }
+
+      _getGridItemSize(photo) {
+        let sizes = this._getPhotoSize(photo);
+        console.log(sizes);
+
+        let original = sizes[11];
+        let height = original.height;
+        let width = original.height;
+        //
+
+
+        // if (height > width) {
+        //   style += 'height: 100%;'
+        //         +  'width: auto;';
+        // }
+        // else {
+        //   style += 'height:auto;'
+        //         +  'width: 100%;'
+        // }
+
+        // console.log(style);
+
+        // return style;
+
+
+      }
+
+
+
     }
 
     window.customElements.define(PortfolioPhotography.is, PortfolioPhotography);

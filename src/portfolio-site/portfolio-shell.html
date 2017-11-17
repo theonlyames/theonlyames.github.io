@@ -14,13 +14,17 @@
 <!-- <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/parallax-background.html"/> -->
 <link rel="import" href="elements.html">
 <link rel="import" href="style/shared-style.html">
+<link rel="import" href='fragments/portfolio-about.html'>
+<link rel="import" href='fragments/portfolio-projects.html'>
+<link rel="import" href='fragments/portfolio-photography.html'>
+<link rel="import" href='fragments/portfolio-contact.html'>
+
+
 
 <dom-module id="portfolio-shell">
   <template>
 
     <style include="portfolio-style">
-
-
 
     </style>
 
@@ -148,11 +152,11 @@
       static get is() { return 'portfolio-shell'; }
       static get properties() {
         return {
-          page: {
-            type: String,
-            reflectToAttribute: true,
-            observer: '_pageChanged',
-          },
+          // page: {
+          //   type: String,
+          //   reflectToAttribute: true,
+          //   observer: '_pageChanged',
+          // },
           routeData: Object,
           subroute: String,
           // This shouldn't be neccessary, but the Analyzer isn't picking up
@@ -178,32 +182,6 @@
 
       ready() {
         super.ready();
-
-
-        Polymer.importHref(
-            this.resolveUrl('fragments/portfolio-about.html'),
-            null,
-            null,
-            false);
-
-        Polymer.importHref(
-            this.resolveUrl('fragments/portfolio-projects.html'),
-            null,
-            null,
-            false);
-
-        Polymer.importHref(
-            this.resolveUrl('fragments/portfolio-photography.html'),
-            null,
-            null,
-            false);
-
-        Polymer.importHref(
-            this.resolveUrl('fragments/portfolio-contact.html'),
-            null,
-            null,
-            false);
-
 
       }
 
