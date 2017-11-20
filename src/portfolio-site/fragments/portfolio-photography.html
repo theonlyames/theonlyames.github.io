@@ -287,7 +287,7 @@
         // this.$.boop.toggle();
       }
 
-      _getPhotoUrl(photo) {
+      async _getPhotoUrl(photo) {
         return 'https://farm'
                 + photo.farm
                 + '.staticflickr.com/'
@@ -296,33 +296,10 @@
                 + photo.secret + '_b.jpg';
       }
 
-       _getPhotoSize(photo) {
-        let sizes = this.handler._getPhotoSizes(photo);
-        return sizes;
-      }
+      async _getGridItemSize(photo) {
+        var sizes = await this.handler._getPhotoSizes(photo);
 
-      _getGridItemSize(photo) {
-        let sizes = this._getPhotoSize(photo);
-        console.log(sizes);
-
-        let original = sizes[11];
-        let height = original.height;
-        let width = original.height;
-        //
-
-
-        // if (height > width) {
-        //   style += 'height: 100%;'
-        //         +  'width: auto;';
-        // }
-        // else {
-        //   style += 'height:auto;'
-        //         +  'width: 100%;'
-        // }
-
-        // console.log(style);
-
-        // return style;
+        let original = sizes.size[11];
 
 
       }
