@@ -15,7 +15,7 @@
     <iron-ajax id="ajax"
                loading="{{loading}}"
                handle-as="text"
-               on-response="_didReceiveResponse">
+               >
     </iron-ajax>
 
 
@@ -90,23 +90,51 @@
             '&per_page=' + this.perPage;
       }
 
-      _didReceiveResponse(e) {
-        var payload = JSON.parse(e.detail.response.match('jsonFlickrApi\\((.*)\\)')[1]);
-
-        if (!payload || !payload.photos || !payload.photos.photo) {
+      async _getPhotoSizes(photo)
+      {
+        if (this.loading) {
           return;
         }
 
-				this.totalPages = payload.photos.pages;
+        if (!photo) {
+          return;
+        }
 
-        payload.photos.photo.forEach(function(photo) {
-          this.push('photos', photo);
-        }, this);
+        var ajax = this.$.ajax;
+        ajax.url = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes' +
+                  '&api_key=' + this.key +
+                  '&format=json' +
+                  '&photo_id=' + photo.id;
 
+        let response = (await (Promise.resolve(this.$.ajax.generateRequest().completes))).response;
+
+        console.log(response);
+
+        let payload = JSON.parse(response.match('jsonFlickrApi\\((.*)\\)')[1]);
+
+        if (!payload || !payload.sizes || !payload.sizes.size)
+          return;
+
+        return payload.sizes;
       }
 
+      // _didReceiveResponse(e) {
+      //   var payload = JSON.parse(e.detail.response.match('jsonFlickrApi\\((.*)\\)')[1]);
+      //   console.log(payload);
+      //   if (!payload || (!payload.photos || !payload.photos.photo) || !payload.sizes) {
+      //     // return;
+      //   }
+      //   else {
+  		// 		this.totalPages = payload.photos.pages;
+      //
+      //     payload.photos.photo.forEach(function(photo) {
+      //       this.push('photos', photo);
+      //     }, this);
+      //   }
+      // }
 
-      _loadMore() {
+
+      async _loadMore() {
         // console.log(this.loading)
         if (this.loading) {
           return;
@@ -114,18 +142,23 @@
 
 				if (this.page < this.totalPages) {
 					this.page++;
-        	this.$.ajax.url=this._getAPIEndpoint(this.key, this.user, this.page);
-        	this.$.ajax.generateRequest();
+          this.$.ajax.url= this._getAPIEndpoint(this.key, this.user, this.page);;
+
+          var totalPages = this.totalPages;
+          let response = (await (Promise.resolve(this.$.ajax.generateRequest().completes))).response;
+          let payload = JSON.parse(response.match('jsonFlickrApi\\((.*)\\)')[1]);
+          
+          if (!payload || !payload.photos || !payload.photos.photo) {
+                // return;
+          }
+          else {
+            totalPages = payload.photos.pages;
+            payload.photos.photo.forEach(function(photo) {
+              this.push('photos', photo);
+            }, this);
+          }
 				}
-        // else {
-        //   console.log('too many pages ' + this.page + ' / ' + this.totalPages);
-        // }
-
-        // console.log(this.photos);
-
       }
-
-
     }
 
 

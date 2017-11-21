@@ -1,149 +1,201 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
-<!-- <link rel="import" href="../../../bower_components/flickr-handler/flickr-handler.html"> -->
-<link rel="import" href="../../../bower_components/app-layout/app-grid/app-grid-style.html">
-<!-- <link rel="import" href="../elements/html"> -->
-<link rel="import" href="../style/fragment-style.html">
 
+<!-- <link rel="import" href="../style/fragment-style.html"> -->
 
 <dom-module id="portfolio-photography">
   <template>
     <style include="portfolio-style">
-      .css-grid {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        grid-gap: 8px;
-        grid-auto-rows: minmax(100px, auto);
+      :host {
+
+      }
+      article {
+        @apply --content-area;
       }
 
-      .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
-        grid-column: span 1;
+      .css-grid {
+        display: grid;
+        margin: auto;
+        width: 100%;
+        /*max-width: 1200px;*/
+        text-align: center;
+        justify-content: center;
+        grid-template-columns: repeat(1, minmax(auto,1fr));
+        grid-template-rows: repeat(auto-fill, 1fr);
+        grid-gap: 8px;
+        grid-auto-flow: dense;
+
       }
+
+
 
       @media only screen and (min-width: 576px) {
 
         .css-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-gap: 8px;
-          grid-auto-rows: minmax(200px, auto);
-        }
-
-        .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
-          grid-column: span 2;
+          grid-template-columns: repeat(2, minmax(auto,1fr));
+          grid-template-rows: repeat(auto-fill, 1fr);
         }
       }
 
       @media only screen and (min-width: 768px) {
 
-        .css-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-gap: 8px;
-          grid-auto-rows: minmax(250px, auto);
 
-        }
-
-        .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
-          grid-column: span 2;
-        }
 
       }
 
       @media only screen and (min-width: 992px) {
         .css-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          grid-gap: 8px;
-          grid-auto-rows: minmax(350px, auto);
+
+          grid-template-columns: repeat(3, minmax(auto,1fr));
+          /*grid-template-rows: repeat(auto-fill, 1fr);*/
+
 
         }
 
-        .css-grid-item:first-child, .css-grid-item:nth-child(5n+1), .css-grid-item:last-child {
-          grid-column: span 4;
-        }
 
         .css-grid-item:hover {
-
         }
 
       }
 
-
-
       @media only screen and (min-width: 1200px) { }
+      paper-dialog {
+        width: 80vw;
+        height: 80vh;
+        background-color: none;
+      }
 
-     .css-grid-item {
-        position: relative;
-        background-color: white;
+      paper-dialog div {
         width: 100%;
         height: 100%;
       }
 
-     .css-grid-item * {
-       display: inline-block;
-     }
 
-     .css-grid-item iron-image {
-       height: 100%;
-       width: 100%;
-     }
 
-     /*.css-grid-item .overlay {
-       position: absolute;
-       pointer-events: none;
-       height: 100%;
-       width:  100%;
-       top: 0px;
-       left: 0px;
-       background-color: none;
-     }*/
+      .css-grid-item {
+        /*display: block;*/
+        position: relative;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        /*object-fit: cover;*/
+        /*overflow: hidden;*/
+      }
 
+      .css-grid-item-long {
+        grid-column: span 2;
+      }
+
+      .css-grid-item-tall {
+        grid-row: span 2;
+      }
+
+      .css-grid-item iron-image, .css-grid-item img, .css-grid-item *{
+        display: block;
+        width: 100%;
+        height: 100%;
+
+      }
 
 
      .overlay {
        position: absolute;
-       width: 100%;
-       height: 100%;
-       top: 0;
-       bottom: 0;
-       left: 0;
-       right: 0;
-       z-index: 1;
        pointer-events: none;
-       transition: background-color .15s ease-in-out;
-     }
-     .css-grid-item:hover .overlay,
-     .css-grid-item:active .overlay,
-     .css-grid-item:focus .overlay {
-       background-color: rgba(144, 202, 249, .15);
-       /*position: absolute;*/
+       height: 100%;
+       width:  100%;
+       display: inline-block;
+       top: 0;
+       left: 0;
+       z-index: 1;
+
+       background-color: rgb(144, 202,249);
+       /*transition: background-color .15s ease-in;*/
+       opacity: 0;
+       transition: opacity .15s ease-in;
      }
 
+     .iron-selected        .overlay
+     {
+      opacity: .2 
+      }
+
+     /*.iron-selected        .overlay,*/
+     .css-grid-item:hover  .overlay,
+     .css-grid-item:active .overlay,
+     .css-grid-item:focus  .overlay {
+       /*background-color: rgba(144, 202, 249, .15);*/
+       opacity: .15;
+      }
+
+
+
+
+      paper-card {
+        display: block;
+        padding: 8px;
+      }
+
+
+
+
+
+
+      paper-button {
+        min-height: 48px;
+        padding: 0 8px;
+      }
 
     </style>
+
+    <!-- <paper-button on-click="function(){querySelector('boop').toggle;}">A</paper-button> -->
+
     <article>
       <h2 class="section-header">Photography</h2>
 
+      <flickr-api-handler id="flickr"
+        api-key='28c5968283d6f308010058714cbc80fb'>
+      </flickr-api-handler>
 
-      <flickr-handler id="flickr"
-        key='28c5968283d6f308010058714cbc80fb'
-        user='158128259@N08'
-        photos="{{flickrPhotos}}"
-        per-page='{{numberOfPhotos}}'>
-      </flickr-handler>
 
-      <div class="css-grid">
-        <template is="dom-repeat" items="{{flickrPhotos}}">
-          <!-- <img src="[[_getPhotoUrl(item)]]" class="css-grid-item" alt="Flickr Image"></img> -->
+      <paper-card>
+        <div class="card-content">
+          <iron-selector class="css-grid"
+                         attr-for-selected="name"
+                         selected="{{selected}}"
+                         selectable=".css-grid-item">
 
-          <div class="css-grid-item">
-            <iron-image src$="[[_getPhotoUrl(item)]]" sizing="cover" alt="Flickr image"></iron-image>
-            <div class="overlay"></div>
-          </div>
+            <template is="dom-repeat" items="{{flickrPhotos}}">
+                <div class$="css-grid-item css-grid-item-[[_getRatioStyle(item)]]" name="{{item}}" >
 
-        </template>
-      </div>
+
+                    <img src$="{{_getPhotoUrl(item)}}"
+                                alt="Flickr Photo"
+                                name="{{item}}">
+                    <div class="overlay">
+
+                    </div>
+
+
+                  <!-- <iron-image src$="[[_getPhotoUrl(item)]]"
+                              alt="Flickr Image">
+                  </iron-image> -->
+
+
+                </div>
+
+            </template>
+          </iron-selector>
+        </div>
+        <!-- <div class="card-actions"> -->
+          <!-- <a href="https://www.flickr.com/people/158128259@N08/"> -->
+          <!-- <a href="#">
+            <paper-button raised>View More On Flickr</paper-button>
+          </a>
+        </div> -->
+      </paper-card>
     </article>
+
+
+
   </template>
 
   <script>
@@ -164,54 +216,51 @@
             type: Object,
             value: {}
           },
+          selected: {
+            type: Object
+          },
+          selectedPhotoOUrl: {
+            type: String,
+            computed: '_getPhotoUrl(selected)'
+          },
           numberOfPhotos: {
             type: Number,
-            value: 6
+            value: 10
           }
+
         };
       }
 
+      _rawrs(){
+        this.shadowRoot.querySelector('iron-pages').selectNext();
+      }
+
+      _isSelected(selected) {
+        if (selected == null || selected == undefined)
+        {
+          return function(){
+            return null;
+          };
+        }
+        else {
+          return function(item){
+            return (item.id != selected.id);
+          };
+        }
+      }
 
       ready() {
         super.ready();
         this.handler = this.$.flickr;
-        this.handler._loadMore();
+        this._loadPhotos();
+        // console.log(thisphotos);
       }
 
-      _photosChanged(newValue, oldValue) {
-        // if (oldValue == null && this.displayGridQuery) {
-        //   if (oldValue != 0) {
-        //     console.log('photosChange');
-        //     console.log(newValue);
-        //     console.log(oldValue);
-        //
-        //     this._mediaQueryTriggered(this.displayGridQuery, null);
-        //   }
-        // }
+      _showOverlay(e) {
+        // this.$.boop.toggle();
       }
-
-      _mediaQueryTriggered(newValue, oldValue) {
-
-        // console.log('newValue: ' + newValue +'\nOldValue: ' + oldValue);
-        if (this.flickrPhotos.length > 0) {
-          if (newValue == true)
-          {
-
-            this.pop(this.flickrPhotos);
-            return;
-          }
-          else if (newValue == false && oldValue == true) {
-
-            this.push(this.flickrPhotos, this.deletedItem);
-            this.deletedItem = null;
-          }
-
-        }
-      }
-
 
       _getPhotoUrl(photo) {
-        // console.log(photo);
         return 'https://farm'
                 + photo.farm
                 + '.staticflickr.com/'
@@ -219,7 +268,74 @@
                 + '/' + photo.id + '_'
                 + photo.secret + '_b.jpg';
       }
+
+      _getAspectRatio(photo) {
+        let method = 'flickr.photos.getSizes';
+        let params = {'photo_id':(photo.id)};
+
+        return Promise.resolve(this.handler._makeRequest(method, params))
+          .then((payload => {
+
+            if (!payload || !payload.sizes || !payload.sizes.size) {
+              return null;
+            }
+            else {
+              let original = payload.sizes.size[11];
+
+              let ratio = original.width / original.height;
+
+              if (original.height > original.width)
+                ratio = ratio * -1;
+
+              photo.ratio=ratio;
+              return photo;
+            }
+          }));
+        ;
+      }
+
+      _getRatioStyle(photo) {
+        let ratio = photo.ratio;
+
+
+        if (ratio >= 1.77)
+          return 'long';
+        if (ratio <= 0)
+          return 'tall'
+        else return ''
+      }
+
+
+      async _loadPhotos() {
+
+        var method ='flickr.photos.search';
+
+        var params = {'per_page':'24',
+                      'user_id':'158128259@N08',
+                      'safe_search':'1',
+                      'sort':'interestingness-desc'
+                      };
+
+        let payload = await (this.handler._makeRequest(method, params));
+        let photos = [];
+        if (!payload || !payload.photos || !payload.photos.photo) {
+          return [];
+        }
+        else {
+
+          for (var i = 0; i < payload.photos.photo.length; i++) {
+            photos.push(this._getAspectRatio(payload.photos.photo[i]));
+          }
+
+          await Promise.all(photos).then((photos) => {
+            for (var i = 0; i < photos.length; i++) {
+              this.push('flickrPhotos', photos[i]);
+          }});
+
+        }
+      }
     }
+
 
     window.customElements.define(PortfolioPhotography.is, PortfolioPhotography);
   </script>

@@ -1,0 +1,97 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<dom-module id="flickr-api">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax id="ajax"
+               loading="{{loading}}"
+               handle-as="text"
+               >
+
+               <!-- on-response="_didReceiveResponse"> -->
+    </iron-ajax>
+
+  </template>
+
+  <script>
+    /**
+     * `flickr-api`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+
+    class FlickrApi extends Polymer.Element {
+      static get is() { return 'flickr-api'; }
+      static get properties() {
+        return {
+          api_key: {
+            type: String
+            // value: 'c304f1096a06486d3c1e7ab271bf7f3f'
+          },
+          loading: Boolean,
+          response: {
+            type: Object
+          }
+        };
+      }
+
+      _getAPIEndpoint(method, api_key) {
+
+        if (!method || !api_key) {
+          return;
+        }
+
+        return 'https://api.flickr.com/services/rest/?method=' + method
+                + '&api_key=' + api_key;
+                + '&format=json'
+
+      }
+
+      // _didReceiveResponse(e) {
+      //   var payload = JSON.parse(e.detail.response.match('jsonFlickrApi\\((.*)\\)')[1]);
+      //
+      //   if (!payload) {
+      //     return;
+      //   }
+      //
+      //   else {
+      //
+      //   }
+      //
+      // }
+
+
+      async _makeRequest(method, parameters) {
+        if (this.loading) {
+          return;
+        }
+
+        var ajax = this.$.ajax;
+        ajax.url=this._getAPIEndpoint(method, this.api_key);
+        ajax.params = parameters;
+
+
+        let payload = await (Promise.resolve(ajax.generateRequest().completes)
+          .then(
+            (request) => {
+              return JSON.parse(request.response.match('jsonFlickrApi\\((.*)\\)')[1]);
+            }));
+
+        // console.log(ajax);
+        // console.log(rawr);
+        return rawr;
+      }
+    }
+
+    window.customElements.define(FlickrApi.is, FlickrApi);
+  </script>
+</dom-module>

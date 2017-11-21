@@ -1,0 +1,89 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+
+<dom-module id="flickr-api-handler">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax id="ajax"
+               handle-as="text"
+               loading="{{loading}}"
+               last-response="{{ajaxResponse}}">
+               <!-- on-response$="{{onResponse}}"> -->
+    </iron-ajax>
+
+  </template>
+
+  <script>
+    /**
+     * `flickr-api-handler`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+
+    class FlickrApiHandler extends Polymer.Element {
+      static get is() { return 'flickr-api-handler'; }
+      static get properties() {
+        return {
+          api_key: {
+            type: String,
+            value: 'c304f1096a06486d3c1e7ab271bf7f3f'
+          },
+          loading: Boolean,
+          // onResponse: {
+          //   type: Object,
+          //   value() {return (e)=>{console.log('000');}},
+          //   observer: '_onResponseChanged'
+          // },
+          previousResponse: {
+            type: Array,
+            value: []
+          }
+        };
+      }
+
+      // _onResponseChanged(newValue, oldValue) {
+      //   console.log('responseChanged');
+      //   // if (!(newValue)) {
+      //   //   newValue = function(){};
+      //   // }
+      //   //
+      //   // this.push('previousResponse', oldValue);
+      // }
+
+      _getAPIEndpoint(method, api_key) {
+
+        if (!method || !api_key) {
+          return;
+        }
+
+        return 'https://api.flickr.com/services/rest/?method=' + method
+                + '&api_key=' + api_key
+                + '&format=' + 'json';
+
+      }
+
+
+      async _makeRequest(method, parameters) {
+        if (!method)
+          throw 0;
+        var ajax = this.$.ajax;
+        ajax.url = this._getAPIEndpoint(method, this.api_key);
+        ajax.params = parameters;
+
+        let response = (await (Promise.resolve(ajax.generateRequest().completes))).response;
+        return JSON.parse(response.match('jsonFlickrApi\\((.*)\\)')[1]);
+      }
+    }
+
+    window.customElements.define(FlickrApiHandler.is, FlickrApiHandler);
+  </script>
+</dom-module>
