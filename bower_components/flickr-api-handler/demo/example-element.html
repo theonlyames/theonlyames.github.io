@@ -1,0 +1,167 @@
+<link rel="import" href="../../polymer/polymer-element.html">
+<!-- <link rel="import" href="../flickr-api-handler.html"> -->
+<dom-module id="example-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin: auto;
+
+        /*text-align: center;*/
+      }
+
+      .css-grid {
+        display: grid;
+        margin: auto;
+        width: 80%;
+        max-width: 1200px;
+        justify-content: center;
+        grid-template-columns: repeat(3, 1fr);
+        /*minmax(250px, 25%));*/
+        grid-template-rows: repeat(auto-fill);
+        grid-gap: 8px;
+        grid-auto-flow: dense row;
+      }
+
+      .css-grid-item {
+        /*display: inline-block;*/
+        /*width: 300px;*/
+        /*width: 100%;*/
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /*grid-column: span 2;*/
+      }
+
+      .css-grid-item-long {
+        grid-column: span 2;
+      }
+
+      .css-grid-item-tall {
+        grid-row: span 2;
+      }
+      .css-grid-item img {
+        display: block;
+        /*width: 300px;*/
+        /*object-fit: scale-down;*/
+        /*minmax*/
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+
+      }
+    </style>
+
+    <flickr-api-handler id='myflickr' api_key="c304f1096a06486d3c1e7ab271bf7f3f"></flickr-api-handler>
+    <div class="css-grid">
+      <template is="dom-repeat" items='{{photos}}'>
+        <div class$="css-grid-item [[item.tall]]">
+          <img src$="{{_getPhotoUrl(item)}}" alt="Flickr Photo">
+        </div>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    /**
+     * `example-element`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+
+    class ExampleElement extends Polymer.Element {
+      static get is() { return 'example-element'; }
+      static get properties() {
+        return {
+          handler: Object,
+          // api_key: {
+          //   type: String,
+          //   value: 'c304f1096a06486d3c1e7ab271bf7f3f'
+          // },
+          photos: {
+            type: Array,
+            value() { return []; }
+          }
+        };
+      }
+
+      ready() {
+        super.ready();
+        this.handler = this.$.myflickr;
+        this._loadPhotos();
+        console.log(this.photos);
+      }
+
+      async _loadPhotos() {
+
+        var method ='flickr.photos.search';
+
+        var params = {'per_page':'24',
+                      'user_id':'158128259@N08',
+                      'safe_search':'1',
+                      'sort':'interestingness-desc'
+                      };
+
+        let payload = await (this.handler._makeRequest(method, params));
+
+        if (!payload || !payload.photos || !payload.photos.photo) {
+          return;
+        }
+
+        else {
+          payload.photos.photo.forEach(async (photo) =>
+          {
+            photo.tall = await this._getOrientationStyle(photo);
+            this.push('photos', photo);
+          }, this);
+        }
+      }
+
+
+      async _getOrientationStyle(photo)
+      {
+        if (!photo)
+          return '';
+
+        var method ='flickr.photos.getSizes';
+
+        var params = {'photo_id':''+photo.id};
+
+        let payload = await (this.handler._makeRequest(method, params));
+
+        if (!payload || !payload.sizes || !payload.sizes.size)
+          return '';
+
+        let original = await payload.sizes.size[11];
+        if (original.height > original.width)
+        {
+           return 'css-grid-item-tall';
+        }
+        else if ((original.width/original.height) > 1.77 ) {
+          console.log(original);
+          return 'css-grid-item-long'
+        }
+        else
+          return '';
+      }
+
+      _getPhotoUrl(photo) {
+        // console.log(photo);
+        return 'https://farm'
+                + photo.farm
+                + '.staticflickr.com/'
+                + photo.server
+                + '/' + photo.id + '_'
+                + photo.secret + '_b.jpg';
+      }
+
+    }
+
+    window.customElements.define(ExampleElement.is, ExampleElement);
+  </script>
+</dom-module>
